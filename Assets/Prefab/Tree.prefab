@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3878584973481375595}
   - component: {fileID: 2038686812540307823}
   m_Layer: 3
-  m_Name: zelda_tree_0
+  m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
