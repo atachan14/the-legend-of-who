@@ -14,10 +14,10 @@ public class Player : MonoBehaviour
     bool moveDown;
     Vector3 direction = Vector3.down;
 
-    public Sprite UpSprite; // 上向きのスプライト
-    public Sprite DownSprite; // 下向きのスプライト
-    public Sprite LeftSprite; // 左向きのスプライト
-    public Sprite RightSprite; // 右向きのスプライト
+    public Sprite UpSprite; 
+    public Sprite DownSprite; 
+    public Sprite LeftSprite; 
+    public Sprite RightSprite; 
 
     private SpriteRenderer spriteRenderer;
 
@@ -90,6 +90,16 @@ public class Player : MonoBehaviour
         return hit == null;
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        // 他のオブジェクトがタイルの場合にそのタイルのメソッドを呼び出す
+        CustomTile tile = collider.GetComponent<CustomTile>();
+        if (tile != null)
+        {
+            tile.OnPlayerStep();
+        }
+    }
+
     void ShootArrow()
     {
         GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0f, 0f, GetAngle(direction)));
@@ -100,9 +110,9 @@ public class Player : MonoBehaviour
 
     public float GetAngle(Vector3 direction)
     {
-        if (direction == Vector3.up) return 0f;     // Up -> 0度
+        if (direction == Vector3.down) return 0f;     // Up -> 0度
         if (direction == Vector3.right) return 90f;  // Right -> 90度
-        if (direction == Vector3.down) return 180f;  // Down -> 180度
+        if (direction == Vector3.up) return 180f;  // Down -> 180度
         if (direction == Vector3.left) return 270f;  // Left -> 270度
         return 0; // Default
     }
