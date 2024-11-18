@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 public class Player : MonoBehaviour
 {
 
-    float speed = 0.1f;
+    public float speed = 10f;
     bool moveUp;
     bool moveRight;
     bool moveLeft;
@@ -71,10 +71,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A)) moveLeft = false;
         if (Input.GetKeyUp(KeyCode.S)) moveDown = false;
 
-        if (moveUp && CanMove(direction)) transform.position += Vector3.up * speed;
-        if (moveRight && CanMove(direction)) transform.position += Vector3.right * speed;
-        if (moveLeft && CanMove(direction)) transform.position += Vector3.left * speed;
-        if (moveDown && CanMove(direction)) transform.position += Vector3.down * speed;
+        if (moveUp && CanMove(direction)) transform.position += Vector3.up * speed*Time.deltaTime;
+        if (moveRight && CanMove(direction)) transform.position += Vector3.right * speed * Time.deltaTime;
+        if (moveLeft && CanMove(direction)) transform.position += Vector3.left * speed * Time.deltaTime;
+        if (moveDown && CanMove(direction)) transform.position += Vector3.down * speed * Time.deltaTime;
     }
 
     // 移動可能かチェックするメソッド
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     {
         // 移動先の座標を計算
         Vector3 newPosition = transform.position + direction * speed;
-        int layerMask = LayerMask.GetMask("noPass");
+        int layerMask = LayerMask.GetMask("noPassTile");
         Vector2 boxSize = new Vector2(0.32f, 0.32f); // ボックスのサイズ（幅と高さ）
         Collider2D hit = Physics2D.OverlapBox(newPosition, boxSize, 0f, layerMask);
 
@@ -93,10 +93,10 @@ public class Player : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         // 他のオブジェクトがタイルの場合にそのタイルのメソッドを呼び出す
-        CustomTile tile = collider.GetComponent<CustomTile>();
+        OnExeTile tile = collider.GetComponent<OnExeTile>();
         if (tile != null)
         {
-            tile.OnPlayerStep();
+            tile.OnExe();
         }
     }
 
