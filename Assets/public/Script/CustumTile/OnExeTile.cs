@@ -12,7 +12,7 @@ public class OnExeTile : Tile
 
 
 
-    public void OnExe()
+    void OnTriggerEnter2D(Collider2D collider)
     {
         if (!string.IsNullOrEmpty(sceneName))
         {

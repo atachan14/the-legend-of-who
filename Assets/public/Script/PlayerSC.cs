@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     bool moveRight;
     bool moveLeft;
     bool moveDown;
-    Vector3 direction = Vector3.down;
+    private Vector3 direction = Vector3.down;
+    private Vector3 lastSafePosition;
 
     public Sprite UpSprite; 
     public Sprite DownSprite; 
@@ -31,11 +32,13 @@ public class Player : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lastSafePosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        lastSafePosition = transform.position;
         if (Input.GetKeyDown(KeyCode.W))
         {
             moveUp = true;
@@ -90,13 +93,20 @@ public class Player : MonoBehaviour
         return hit == null;
     }
 
+    
+
     void OnTriggerEnter2D(Collider2D collider)
     {
-        // 他のオブジェクトがタイルの場合にそのタイルのメソッドを呼び出す
-        OnExeTile tile = collider.GetComponent<OnExeTile>();
-        if (tile != null)
+        Debug.Log("switch:" + collider.tag);
+        switch (collider.tag)
         {
-            tile.OnExe();
+            case "NoPassTile":
+                Debug.Log("NoPassTile");
+                transform.position = lastSafePosition;
+                break;
+
+           
+
         }
     }
 
